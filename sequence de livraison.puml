@@ -1,0 +1,74 @@
+@startuml Séquence de Livraison
+title Séquence de Livraison - Système de Livraison par Drones
+actor Administrateur
+participant Services_etat
+participant Base
+participant Operateur
+participant Livraison
+participant Drone
+participant Commande
+
+Administrateur -> Services_etat: affecter_commandes()
+activate Services_etat
+
+Services_etat -> Base: affecter_commandes(liste_commandes)
+activate Base
+
+Base -> Operateur: evaluer_affectation_drone(drone, commandes)
+activate Operateur
+Operateur --> Base: score et commandes possibles
+deactivate Operateur
+
+Base -> Livraison: new Livraison()
+activate Livraison
+
+Base -> Livraison: ajouter_commande(commande)
+Base -> Operateur: add_livraison(livraison)
+activate Operateur
+Operateur --> Base: confirmation
+deactivate Operateur
+
+Base --> Services_etat: affectation terminée
+deactivate Base
+Services_etat --> Administrateur: affectation complétée
+deactivate Services_etat
+
+Administrateur -> Base: executer_livraisons()
+activate Base
+
+Base -> Operateur: executer_livraisons()
+activate Operateur
+
+Operateur -> Livraison: executer_livraison()
+activate Livraison
+
+loop pour chaque commande
+    Livraison -> Drone: executer_mission_sequencee(commande)
+    activate Drone
+    
+    Drone -> Commande: demarrer()
+    activate Commande
+    Commande --> Drone: confirmé
+    deactivate Commande
+    
+    Drone -> Drone: simuler_vol(destination)
+    
+    Drone -> Commande: marquer_livree()
+    activate Commande
+    Commande --> Drone: confirmé
+    deactivate Commande
+    
+    Drone --> Livraison: mission terminée
+    deactivate Drone
+end
+
+Livraison --> Operateur: livraison terminée
+deactivate Livraison
+
+Operateur --> Base: opérations terminées
+deactivate Operateur
+
+Base --> Administrateur: toutes livraisons exécutées
+deactivate Base
+
+@enduml

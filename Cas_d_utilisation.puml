@@ -1,0 +1,39 @@
+@startuml Cas d'Utilisation
+title Diagramme de Cas d'Utilisation - Système de Livraison par Drones
+left to right direction
+
+actor Administrateur
+actor OperateurDrone
+actor ServiceUrgence
+
+rectangle "Système de Livraison par Drone" {
+  usecase (Gérer les Services d'État) as UC1
+  usecase (Gérer les Bases) as UC2
+  usecase (Gérer les Opérateurs) as UC3
+  usecase (Affecter les Commandes) as UC4
+  usecase (Exécuter les Livraisons) as UC5
+  usecase (Générer les Rapports) as UC6
+  usecase (Piloter les Drones) as UC7
+  usecase (Surveiller les Missions) as UC8
+  usecase (Déclencher une Alerte) as UC9
+  usecase (Suivre une Commande) as UC10
+  
+  Administrateur --> UC1
+  Administrateur --> UC2
+  Administrateur --> UC3
+  Administrateur --> UC4
+  Administrateur --> UC5
+  Administrateur --> UC6
+  
+  OperateurDrone --> UC7
+  OperateurDrone --> UC8
+  
+  ServiceUrgence --> UC9
+  ServiceUrgence --> UC10
+  
+  UC4 .> UC3 : include
+  UC5 .> UC7 : include
+  UC6 .> UC5 : include
+}
+
+@enduml

@@ -1,0 +1,133 @@
+@startuml class_diagram
+title Diagramme de Classes - Système de Livraison par Drones
+
+package "Système de Livraison" {
+  class Administrateur {
+    - nom: String
+    - id_administrateur: Integer
+    - liste_bases: List<Base>
+    - liste_services: List<Services_etat>
+    + add_service(service: Services_etat): void
+    + add_base(base: Base): void
+    + executer_livraison(): void
+    + generer_rapport_final(): void
+  }
+
+  class Services_etat {
+    - id: Integer
+    - nom: String
+    - region: String
+    - liste_zones: List<Zone>
+    - liste_commandes: List<Commande>
+    + add_zone(zone: Zone): void
+    + add_commande(commande: Commande): void
+    + affecter_commandes(): void
+  }
+
+  class Base {
+    - id: Integer
+    - nom: String
+    - position: Tuple<Float, Float>
+    - capacite: Integer
+    - liste_operateurs: List<Operateur>
+    + add_operateur(operateur: Operateur): void
+    + is_capacite_full(): Boolean
+    + choisir_drone(commande: Commande): Drone
+    + affecter_commandes(liste_commandes: List<Commande>, livraison_id: Integer): void
+  }
+
+  class Operateur {
+    - id: Integer
+    - nom: String
+    - base: Base
+    - liste_drones: List<Drone>
+    - liste_livraisons: List<Livraison>
+    + add_drone(drone: Drone): void
+    + add_livraison(livraison: Livraison): void
+    + executer_livraisons(): void
+    + evaluer_affectation_drone(drone: Drone, commandes: List<Commande>): Dict
+  }
+
+  class Drone {
+    - id_drone: Integer
+    - charge_utile: Quantity
+    - autonomie: Quantity
+    - operateur: Operateur
+    - en_mission: Boolean
+    - nombre_missions: Integer
+    - poids_total_livre: Quantity
+    + demarrer_mission(commande: Commande): Boolean
+    + terminer_commande(): void
+    + simuler_vol(destination: Tuple<Float, Float>): Boolean
+    + executer_mission_sequencee(commande: Commande, operateur: Operateur, numero_mission: Integer, numero_livraison: Integer): void
+  }
+
+  class Commande {
+    - id_commande: Integer
+    - services_etat: Services_etat
+    - base: Base
+    - poids_pillule: Quantity
+    - depart: Zone
+    - arrivee: Zone
+    - priorite: Integer
+    - etat: Etat
+    - livraison: Livraison
+    + demarrer(): void
+    + marquer_livree(): void
+  }
+
+  class Livraison {
+    - id_livraison: Integer
+    - commandes: List<Commande>
+    - etat: Etat
+    - operateur_affecte: Operateur
+    - drones_reserves: Drone
+    + ajouter_commande(commande: Commande): void
+    + executer_livraison(numero: Integer): void
+  }
+
+  class Zone {
+    - id: Integer
+    - nom: String
+    - nombre_personnes: Integer
+    - position: Tuple<Float, Float>
+    + get_priorite(): Integer
+  }
+
+  enum Etat {
+    A_FAIRE
+    EN_COURS
+    TERMINEE
+    + est_a_faire(): Boolean
+    + est_en_cours(): Boolean
+    + est_terminee(): Boolean
+    + demarrer(): Etat
+    + terminer(): Etat
+  }
+}
+
+' Relations
+Administrateur "1" *-- "0..*" Services_etat
+Administrateur "1" *-- "0..*" Base
+
+Services_etat "1" *-- "0..*" Zone
+Services_etat "1" *-- "1..*" Commande
+
+Base "1" *-- "0..*" Operateur
+Base "1" *-- "1" Zone : zone de base
+
+Operateur "1" *-- "1..*" Drone
+Operateur "1" *-- "1..*" Livraison
+
+Livraison "1" *-- "1..*" Commande
+Livraison "1" --> "1" Drone
+
+
+Commande "1" --> "1" Base
+Commande "1" --> "1" Zone : départ
+Commande "1" --> "1" Zone : arrivée
+
+
+
+
+@enduml
