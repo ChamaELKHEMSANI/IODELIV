@@ -62,7 +62,7 @@ python main.py
 
 ### Structure des Fichiers
 
-drone-delivery-system/
+src/
 ├── administrateur.py     # Gestionnaire principal
 ├── base.py               # Bases opérationnelles
 ├── commande.py           # Commandes de livraison
