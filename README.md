@@ -86,32 +86,29 @@ Le système gère actuellement :
 
  Contrats et Vérifications
 Le projet utilise icontract pour assurer la robustesse :
+-Vérification des préconditions
+-Validation des postconditions
+-Contrôle des invariants
 
-Vérification des préconditions
-Validation des postconditions
-Contrôle des invariants
-
- Métriques et Performance
+Métriques et Performance
 Le système génère des rapports détaillés incluant :
+-Taux de livraison réussie
+-Distance totale parcourue
+-Charge utile utilisée
+-Performance par drone et par service
 
-Taux de livraison réussie
-Distance totale parcourue
-Charge utile utilisée
-Performance par drone et par service
-
-🎯 Objectifs Pédagogiques
+Objectifs Pédagogiques
 Ce projet démontre :
+-Conception OO avancée avec relations complexes
+-Gestion d'états avec pattern State
+-Calculs géospatiaux précis
+-Gestion d\'unités avec Pint
+-Programmation par contrat
 
-Conception OO avancée avec relations complexes
-Gestion d'états avec pattern State
-Calculs géospatiaux précis
-Gestion d\'unités avec Pint
-Programmation par contrat
-
-👥 Auteur
+Auteur
 Développé dans le cadre d'un projet de programmation orientée objet avancée.
 
-📄 Licence
+Licence
 Projet éducatif - Libre pour usage académique.
 
 
